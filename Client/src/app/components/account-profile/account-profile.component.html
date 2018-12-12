@@ -1,0 +1,13 @@
+<div class="relative">
+  <button mat-icon-button (click)="accountProfilePopover = !accountProfilePopover">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <div *ngIf="accountProfilePopover" class="account-profile-popover absolute right-0">
+    <div class="up-arrow ml-auto mr1"></div>
+    <mat-card>
+      <mat-card-content>
+        <app-signup></app-signup>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

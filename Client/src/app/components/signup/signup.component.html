@@ -1,0 +1,24 @@
+<form class="form signup-form" [formGroup]="signupForm">
+  <mat-form-field class="form-field email-field block">
+    <input matInput type="email" placeholder="Email" formControlName="email">
+    <mat-error *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched">
+      Please enter a valid email address
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="form-field password-field block">
+    <input matInput type="password" placeholder="Password" formControlName="password">
+    <mat-error *ngIf="!signupForm.get('password').valid && signupForm.get('password').touched">
+      Please enter a valid password
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="form-field confirm-password-field block">
+    <input matInput type="password" placeholder="Confirm Password" formControlName="confirmpassword">
+    <mat-error *ngIf="signupForm.hasError('notSame') && signupForm.get('confirmpassword').touched">
+      Passwords did not match
+    </mat-error>
+  </mat-form-field>
+  <div class="mt2">
+    <button type="button" mat-raised-button color="primary" [disabled]="!signupForm.valid"
+    (click)="onSignupFormSubmit(signupForm.value, $event)">Sign Up</button>
+  </div>
+</form>

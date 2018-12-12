@@ -1,0 +1,26 @@
+<!-- <p>testData: {{formSchema | json}}</p> -->
+<form class="form {{formSchema.classes}}" [formGroup]="myForm">
+    <div *ngFor="let field of formSchema.fields">
+        <div *ngIf="field.type === 'file'" class="mb3">
+            <button mat-fab (click)="fileInput.click()" color="light">
+                <mat-icon>library_add</mat-icon>
+                <input formControlName="{{field.name}}" #fileInput (change)="onFileInput(myForm.value, field.name, $event)" type="file" style="display:none;" />
+            </button>
+            {{myForm.value[field.name]}}
+        </div>
+        <div *ngIf="field.type !== 'file'">
+            <mat-form-field class="form-field {{field.name}}-field block">
+                <input matInput type="field.type" [placeholder]="field.placeholder" formControlName="{{field.name}}">
+            </mat-form-field>
+            <mat-error *ngIf="!myForm.get(field.name).valid && myForm.get(field.name).touched">
+                {{field.error}}
+            </mat-error>
+        </div>
+    </div>
+    <button type="button" mat-raised-button color="primary" [disabled]="myForm.invalid" (click)="onFormSubmit(myForm.value, $event)">
+        Submit
+    </button>
+    <button type="reset" class="right" mat-stroked-button (click)="onFormReset(myForm.value, $event)">
+        Reset
+    </button>
+</form>
