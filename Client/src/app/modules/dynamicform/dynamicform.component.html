@@ -6,7 +6,6 @@
                 <mat-icon>library_add</mat-icon>
                 <input formControlName="{{field.name}}" #fileInput (change)="onFileInput(myForm.value, field.name, $event)" type="file" style="display:none;" />
             </button>
-            {{myForm.value[field.name]}}
         </div>
         <div *ngIf="field.type !== 'file'">
             <mat-form-field class="form-field {{field.name}}-field block">

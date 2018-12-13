@@ -20,7 +20,6 @@ import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProductsComponent } from './components/products/products.component';
 import { ModalComponent } from './ui-components/popup/modal-popup/modal.component';
-import { SchemaformComponent } from './ui-components/schema-form/schema-form.component';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 
 import { DynamicFormModule } from './modules/dynamicform/dynamicform.module';

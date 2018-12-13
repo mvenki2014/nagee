@@ -458,8 +458,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_profile_profile_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/profile/profile.component */ "./src/app/components/profile/profile.component.ts");
 /* harmony import */ var _components_products_products_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/products/products.component */ "./src/app/components/products/products.component.ts");
 /* harmony import */ var _ui_components_popup_modal_popup_modal_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./ui-components/popup/modal-popup/modal.component */ "./src/app/ui-components/popup/modal-popup/modal.component.ts");
-/* harmony import */ var _ui_components_schema_form_schema_form_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./ui-components/schema-form/schema-form.component */ "./src/app/ui-components/schema-form/schema-form.component.ts");
-/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./_helpers */ "./src/app/_helpers/index.ts");
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./_helpers */ "./src/app/_helpers/index.ts");
+/* harmony import */ var _modules_dynamicform_dynamicform_module__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./modules/dynamicform/dynamicform.module */ "./src/app/modules/dynamicform/dynamicform.module.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -501,8 +501,7 @@ var AppModule = /** @class */ (function () {
                 _components_login_login_component__WEBPACK_IMPORTED_MODULE_13__["LoginComponent"],
                 _components_profile_profile_component__WEBPACK_IMPORTED_MODULE_14__["ProfileComponent"],
                 _components_products_products_component__WEBPACK_IMPORTED_MODULE_15__["ProductsComponent"],
-                _ui_components_popup_modal_popup_modal_component__WEBPACK_IMPORTED_MODULE_16__["ModalComponent"],
-                _ui_components_schema_form_schema_form_component__WEBPACK_IMPORTED_MODULE_17__["SchemaformComponent"]
+                _ui_components_popup_modal_popup_modal_component__WEBPACK_IMPORTED_MODULE_16__["ModalComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -511,11 +510,12 @@ var AppModule = /** @class */ (function () {
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HttpClientModule"],
                 _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_7__["BrowserAnimationsModule"],
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_2__["AppRoutingModule"],
-                _material_module__WEBPACK_IMPORTED_MODULE_6__["MaterialModule"]
+                _material_module__WEBPACK_IMPORTED_MODULE_6__["MaterialModule"],
+                _modules_dynamicform_dynamicform_module__WEBPACK_IMPORTED_MODULE_18__["DynamicFormModule"]
             ],
             providers: [
-                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HTTP_INTERCEPTORS"], useClass: _helpers__WEBPACK_IMPORTED_MODULE_18__["JwtInterceptor"], multi: true },
-                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HTTP_INTERCEPTORS"], useClass: _helpers__WEBPACK_IMPORTED_MODULE_18__["ErrorInterceptor"], multi: true }
+                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HTTP_INTERCEPTORS"], useClass: _helpers__WEBPACK_IMPORTED_MODULE_17__["JwtInterceptor"], multi: true },
+                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HTTP_INTERCEPTORS"], useClass: _helpers__WEBPACK_IMPORTED_MODULE_17__["ErrorInterceptor"], multi: true }
             ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]],
             entryComponents: [_ui_components_popup_modal_popup_modal_component__WEBPACK_IMPORTED_MODULE_16__["ModalComponent"]]
@@ -665,7 +665,7 @@ var AppViewComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "No authentication needed (popup and reload same route)\n<br />\n<br />\n<button mat-flat-button color=\"primary\" *ngIf=\"!isUserLoggedIn\" (click)=\"openRegisterPopup()\">Register</button>\n<br />\n<br />\n<br />\nNo authentication needed (popup and reload same route)\n<br />\n<br />\n<button mat-flat-button color=\"accent\" (click)=\"openLoginPopup()\" *ngIf=\"!isUserLoggedIn\">Login</button>\n<br />\n<br />\n<br />\nCheck for authentication If not authenticated pas the route('/profile') to login compoent\n<br />\n<br />\n<button mat-flat-button color=\"warn\" (click)=\"goToUserProfile()\">Profile</button> \n<br />\n<br />\n<br />\nNo authentication needed : directly dispaly page ('/products')\n<br />\n<br />\n<button mat-stroked-button color=\"primary\" (click)=\"goToProducts()\">Products</button>\n<br />\n<br />\n<br />\nLogin and go to home page\n<br />\n<br />\n<button mat-stroked-button color=\"warn\" (click)=\"logout()\">Logout</button>"
+module.exports = "<!-- <app-dynamicform [formSchema]=\"formSchema\" (submitHandler)=\"onSubmit($event)\" (resetHandler)=\"onReset($event)\"></app-dynamicform> -->\n\n\nNo authentication needed (popup and reload same route)\n<br />\n<br />\n<button mat-flat-button color=\"primary\" *ngIf=\"!isUserLoggedIn\" (click)=\"openRegisterPopup()\">Register</button>\n<br />\n<br />\n<br />\nNo authentication needed (popup and reload same route)\n<br />\n<br />\n<button mat-flat-button color=\"accent\" (click)=\"openLoginPopup()\" *ngIf=\"!isUserLoggedIn\">Login</button>\n<br />\n<br />\n<br />\nCheck for authentication If not authenticated pas the route('/profile') to login compoent\n<br />\n<br />\n<button mat-flat-button color=\"warn\" (click)=\"goToUserProfile()\">Profile</button> \n<br />\n<br />\n<br />\nNo authentication needed : directly dispaly page ('/products')\n<br />\n<br />\n<button mat-stroked-button color=\"primary\" (click)=\"goToProducts()\">Products</button>\n<br />\n<br />\n<br />\nLogin and go to home page\n<br />\n<br />\n<button mat-stroked-button color=\"warn\" (click)=\"logout()\">Logout</button>\n\n"
 
 /***/ }),
 
@@ -713,7 +713,46 @@ var HomeComponent = /** @class */ (function () {
         this.dialog = dialog;
     }
     HomeComponent.prototype.ngOnInit = function () {
-        this.isUserLoggedIn = localStorage.getItem('currentUser');
+        // this.isUserLoggedIn = localStorage.getItem('currentUser');
+        this.formSchema = {
+            name: 'myForm',
+            classes: 'myForm myFormClass',
+            enableResetButton: true,
+            fields: [
+                {
+                    label: 'name',
+                    name: 'name',
+                    type: 'text',
+                    value: 'Ajay',
+                    validators: ['required'],
+                    pattern: '/^[a-z][a-z\s]*$/',
+                    order: 1,
+                    placeholder: 'Name',
+                    error: 'Enter valid data'
+                },
+                {
+                    label: 'age',
+                    name: 'age',
+                    type: 'number',
+                    value: null,
+                    validators: ['required'],
+                    pattern: '/^[0-9]*$/',
+                    order: 2,
+                    placeholder: 'Age',
+                    error: 'Enter valid data'
+                },
+                {
+                    label: 'file',
+                    name: 'file',
+                    type: 'file',
+                    value: null,
+                    validators: ['required'],
+                    order: 3,
+                    placeholder: 'file',
+                    error: 'Enter valid data'
+                }
+            ]
+        };
     };
     HomeComponent.prototype.openRegisterPopup = function () {
         this.dialogRef = this.dialog.open(_ui_components_popup_modal_popup_modal_component__WEBPACK_IMPORTED_MODULE_3__["ModalComponent"], {
@@ -736,7 +775,7 @@ var HomeComponent = /** @class */ (function () {
         });
     };
     HomeComponent.prototype.goToUserProfile = function () {
-        this.router.navigateByUrl('/profile');
+        // this.router.navigateByUrl('/profile');
         // console.log('profile');
     };
     HomeComponent.prototype.goToProducts = function () {
@@ -746,6 +785,12 @@ var HomeComponent = /** @class */ (function () {
         localStorage.removeItem('currentUser');
         this.router.navigateByUrl('/');
         console.log('logout');
+    };
+    HomeComponent.prototype.onSubmit = function (handler) {
+        console.log(handler.event, handler.formData);
+    };
+    HomeComponent.prototype.onReset = function (handler) {
+        console.log(handler.event, handler.formData);
     };
     HomeComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -937,7 +982,7 @@ var ProductsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "Profile:\n\n\n<app-schemaform  [formSchemaData]=\"profileFormSchema\">\n\n</app-schemaform>"
+module.exports = "Profile:\n"
 
 /***/ }),
 
@@ -981,29 +1026,10 @@ var ProfileComponent = /** @class */ (function () {
     function ProfileComponent(router, dialog) {
         this.router = router;
         this.dialog = dialog;
-        this.profileFormSchema = {
-            name: 'profileForm',
-            fields: [
-                {
-                    name: 'name',
-                    type: 'text',
-                    placeholder: 'Name ...',
-                    validations: [
-                        {
-                            pattern: /[a-zA-Z ]/,
-                            message: 'Required'
-                        }
-                    ]
-                }
-            ]
-        };
-        this._formdata = '';
     }
     ProfileComponent.prototype.ngOnInit = function () {
-        this._formdata = JSON.stringify(this.profileFormSchema);
     };
     ProfileComponent.prototype.onSubmitProfileForm = function (event) {
-        console.log('event', event);
     };
     ProfileComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1088,7 +1114,6 @@ var SignupComponent = /** @class */ (function () {
         this.email = ''; // username
         this.password = '';
         this.confirmpassword = '';
-        this.user = {};
         this.loading = false;
         this.signupForm = this.formBuilder.group({
             'email': [null,
@@ -1258,6 +1283,172 @@ var MaterialModule = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/modules/dynamicform/dynamicform.component.html":
+/*!****************************************************************!*\
+  !*** ./src/app/modules/dynamicform/dynamicform.component.html ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<!-- <p>testData: {{formSchema | json}}</p> -->\n<form class=\"form {{formSchema.classes}}\" [formGroup]=\"myForm\">\n    <div *ngFor=\"let field of formSchema.fields\">\n        <div *ngIf=\"field.type === 'file'\" class=\"mb3\">\n            <button mat-fab (click)=\"fileInput.click()\" color=\"light\">\n                <mat-icon>library_add</mat-icon>\n                <input formControlName=\"{{field.name}}\" #fileInput (change)=\"onFileInput(myForm.value, field.name, $event)\" type=\"file\" style=\"display:none;\" />\n            </button>\n        </div>\n        <div *ngIf=\"field.type !== 'file'\">\n            <mat-form-field class=\"form-field {{field.name}}-field block\">\n                <input matInput type=\"field.type\" [placeholder]=\"field.placeholder\" formControlName=\"{{field.name}}\">\n            </mat-form-field>\n            <mat-error *ngIf=\"!myForm.get(field.name).valid && myForm.get(field.name).touched\">\n                {{field.error}}\n            </mat-error>\n        </div>\n    </div>\n    <button type=\"button\" mat-raised-button color=\"primary\" [disabled]=\"myForm.invalid\" (click)=\"onFormSubmit(myForm.value, $event)\">\n        Submit\n    </button>\n    <button type=\"reset\" class=\"right\" mat-stroked-button (click)=\"onFormReset(myForm.value, $event)\">\n        Reset\n    </button>\n</form>"
+
+/***/ }),
+
+/***/ "./src/app/modules/dynamicform/dynamicform.component.scss":
+/*!****************************************************************!*\
+  !*** ./src/app/modules/dynamicform/dynamicform.component.scss ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/* You can add global styles to this file, and also import other style files */\nmat-form-field, mat-error {\n  font-family: \"roboto\" !important; }\nmat-error {\n  font-size: 13px;\n  margin-bottom: 20px; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9TaGFyZWQvUHJvamVjdHNfTGVhcm5pbmcvUHJvamVjdHMvQ2xpZW50L3NyYy9hcHAvbW9kdWxlcy9keW5hbWljZm9ybS9keW5hbWljZm9ybS5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSwrRUFBK0U7QUFDL0U7RUFDSSxpQ0FBZ0MsRUFDbkM7QUFDRDtFQUNJLGdCQUFlO0VBQ2Ysb0JBQW1CLEVBQ3RCIiwiZmlsZSI6InNyYy9hcHAvbW9kdWxlcy9keW5hbWljZm9ybS9keW5hbWljZm9ybS5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi8qIFlvdSBjYW4gYWRkIGdsb2JhbCBzdHlsZXMgdG8gdGhpcyBmaWxlLCBhbmQgYWxzbyBpbXBvcnQgb3RoZXIgc3R5bGUgZmlsZXMgKi9cbm1hdC1mb3JtLWZpZWxkLCBtYXQtZXJyb3Ige1xuICAgIGZvbnQtZmFtaWx5OiBcInJvYm90b1wiICFpbXBvcnRhbnQ7XG59XG5tYXQtZXJyb3Ige1xuICAgIGZvbnQtc2l6ZTogMTNweDtcbiAgICBtYXJnaW4tYm90dG9tOiAyMHB4O1xufSJdfQ== */"
+
+/***/ }),
+
+/***/ "./src/app/modules/dynamicform/dynamicform.component.ts":
+/*!**************************************************************!*\
+  !*** ./src/app/modules/dynamicform/dynamicform.component.ts ***!
+  \**************************************************************/
+/*! exports provided: DynamicFormComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DynamicFormComponent", function() { return DynamicFormComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var DynamicFormComponent = /** @class */ (function () {
+    function DynamicFormComponent(formBuilder) {
+        this.formBuilder = formBuilder;
+        this.submitHandler = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"](true);
+        this.resetHandler = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"](true);
+    }
+    DynamicFormComponent.prototype.ngOnInit = function () {
+        var fields = this.formSchema.fields;
+        var formBuilderGroupObject = {};
+        fields.forEach(function (field) {
+            var validators = [];
+            field.validators.forEach(function (validator) {
+                validators.push(_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"][validator]);
+            });
+            if (field.pattern) {
+                // validators.push(Validators.pattern(field.pattern));
+            }
+            formBuilderGroupObject[field.name] = [field.value, _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].compose(validators)];
+        });
+        this.myForm = this.formBuilder.group(formBuilderGroupObject);
+    };
+    DynamicFormComponent.prototype.onFileInput = function (formData, field, event) {
+        formData[field] = event.srcElement.files;
+        console.log('formData', formData);
+    };
+    DynamicFormComponent.prototype.onFormSubmit = function (formData, event) {
+        this.submitHandler.emit({ event: event, formData: formData });
+    };
+    DynamicFormComponent.prototype.onFormReset = function (formData, event) {
+        this.resetHandler.emit({ event: event, formData: formData });
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Object)
+    ], DynamicFormComponent.prototype, "formSchema", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
+    ], DynamicFormComponent.prototype, "submitHandler", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
+    ], DynamicFormComponent.prototype, "resetHandler", void 0);
+    DynamicFormComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-dynamicform',
+            template: __webpack_require__(/*! ./dynamicform.component.html */ "./src/app/modules/dynamicform/dynamicform.component.html"),
+            styles: [__webpack_require__(/*! ./dynamicform.component.scss */ "./src/app/modules/dynamicform/dynamicform.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"]])
+    ], DynamicFormComponent);
+    return DynamicFormComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/modules/dynamicform/dynamicform.module.ts":
+/*!***********************************************************!*\
+  !*** ./src/app/modules/dynamicform/dynamicform.module.ts ***!
+  \***********************************************************/
+/*! exports provided: DynamicFormModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DynamicFormModule", function() { return DynamicFormModule; });
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _material_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../material.module */ "./src/app/material.module.ts");
+/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
+/* harmony import */ var _dynamicform_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./dynamicform.component */ "./src/app/modules/dynamicform/dynamicform.component.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+
+var DynamicFormModule = /** @class */ (function () {
+    function DynamicFormModule() {
+    }
+    DynamicFormModule = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
+            declarations: [
+                _dynamicform_component__WEBPACK_IMPORTED_MODULE_6__["DynamicFormComponent"]
+            ],
+            imports: [
+                _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormsModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["ReactiveFormsModule"],
+                _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"],
+                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_5__["BrowserAnimationsModule"],
+                _material_module__WEBPACK_IMPORTED_MODULE_4__["MaterialModule"]
+            ],
+            providers: [],
+            bootstrap: [
+                _dynamicform_component__WEBPACK_IMPORTED_MODULE_6__["DynamicFormComponent"]
+            ],
+            entryComponents: [],
+            exports: [
+                _dynamicform_component__WEBPACK_IMPORTED_MODULE_6__["DynamicFormComponent"]
+            ]
+        })
+    ], DynamicFormModule);
+    return DynamicFormModule;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/ui-components/header/header.component.html":
 /*!************************************************************!*\
   !*** ./src/app/ui-components/header/header.component.html ***!
@@ -1265,7 +1456,7 @@ var MaterialModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-toolbar color=\"primary\">\n  <button mat-icon-button>\n    <!--  (click)=\"drawer.toggle()\" -->\n    <mat-icon>group_work</mat-icon>\n  </button>\n  <h1 class=\"caps\">{{title}}</h1>\n  <app-account-profile class=\"ml-auto\"></app-account-profile>\n</mat-toolbar>"
+module.exports = "<mat-toolbar color=\"primary\">\n  <button mat-icon-button>\n    <!--  (click)=\"drawer.toggle()\" -->\n    <mat-icon>group_work</mat-icon>\n  </button>\n  <h1 class=\"caps\">{{title}}</h1>\n  <!-- <app-account-profile class=\"ml-auto\"></app-account-profile> -->\n</mat-toolbar>"
 
 /***/ }),
 
@@ -1332,7 +1523,7 @@ var HeaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-toolbar color=\"primary\">\n  <h1 class=\"caps\">{{data.title}}</h1>\n  <button mat-icon-button class=\"ml-auto\" (click)=\"onNoClick()\">\n    <mat-icon>close</mat-icon>\n  </button>\n</mat-toolbar>\n<div mat-dialog-content>\n  <div class=\"dialog-content-body p2\">\n    <app-login *ngIf=\"data.contentSelector === 'app-login'\"></app-login>\n    <app-signup *ngIf=\"data.contentSelector === 'app-signup'\"></app-signup>\n  </div>\n</div>\n<div mat-dialog-actions *ngIf=\"data.showDialogActions\">\n  <button mat-button (click)=\"onNoClick()\">{{data.cancelText}}</button>\n  <button mat-button [mat-dialog-close]=\"data\" cdkFocusInitial>{{data.okText}}</button>\n</div>\n"
+module.exports = "<mat-toolbar color=\"primary\">\n  <h1 class=\"caps\">{{data.title}}</h1>\n  <button mat-icon-button class=\"ml-auto\" (click)=\"onNoClick()\">\n    <mat-icon>close</mat-icon>\n  </button>\n</mat-toolbar>\n<div mat-dialog-content [class.no-dialog-action]=\"!data.showDialogActions\">\n  <div class=\"dialog-content-body p2\">\n    <app-login *ngIf=\"data.contentSelector === 'app-login'\"></app-login>\n    <app-signup *ngIf=\"data.contentSelector === 'app-signup'\"></app-signup>\n  </div>\n</div>\n<div mat-dialog-actions *ngIf=\"data.showDialogActions\">\n  <button mat-button (click)=\"onNoClick()\">{{data.cancelText}}</button>\n  <button mat-button [mat-dialog-close]=\"data\" cdkFocusInitial>{{data.okText}}</button>\n</div>\n"
 
 /***/ }),
 
@@ -1399,74 +1590,6 @@ var ModalComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_1__["MatDialogRef"], Object, _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
     ], ModalComponent);
     return ModalComponent;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/ui-components/schema-form/schema-form.component.html":
-/*!**********************************************************************!*\
-  !*** ./src/app/ui-components/schema-form/schema-form.component.html ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "schema form works!\n<form>\n\n\n    <mat-form-field *ngFor=\"field in formSchemaData.fields\">\n        <input matInput placeholder=\"field.placeHolder\" formControlName=\"{{field.name}}\">\n    </mat-form-field>\n\n\n</form>"
-
-/***/ }),
-
-/***/ "./src/app/ui-components/schema-form/schema-form.component.scss":
-/*!**********************************************************************!*\
-  !*** ./src/app/ui-components/schema-form/schema-form.component.scss ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3VpLWNvbXBvbmVudHMvc2NoZW1hLWZvcm0vc2NoZW1hLWZvcm0uY29tcG9uZW50LnNjc3MifQ== */"
-
-/***/ }),
-
-/***/ "./src/app/ui-components/schema-form/schema-form.component.ts":
-/*!********************************************************************!*\
-  !*** ./src/app/ui-components/schema-form/schema-form.component.ts ***!
-  \********************************************************************/
-/*! exports provided: SchemaformComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SchemaformComponent", function() { return SchemaformComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var SchemaformComponent = /** @class */ (function () {
-    function SchemaformComponent() {
-    }
-    SchemaformComponent.prototype.ngOnInit = function () {
-        console.log('formSchemaData', this.formSchemaData);
-    };
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", String)
-    ], SchemaformComponent.prototype, "formSchemaData", void 0);
-    SchemaformComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'app-schemaform',
-            template: __webpack_require__(/*! ./schema-form.component.html */ "./src/app/ui-components/schema-form/schema-form.component.html"),
-            styles: [__webpack_require__(/*! ./schema-form.component.scss */ "./src/app/ui-components/schema-form/schema-form.component.scss")]
-        }),
-        __metadata("design:paramtypes", [])
-    ], SchemaformComponent);
-    return SchemaformComponent;
 }());
 
 

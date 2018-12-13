@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginFormSubmit() {
-    const formData = {username: 'ajay@test.com', password : '123'};
+    const formData = {username: 'ajay@test.com', password : '1234567'};
     this.authenticate.login(formData)
     .subscribe(user => {
         console.log('logged in user', user);

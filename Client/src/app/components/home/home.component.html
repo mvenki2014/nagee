@@ -1,5 +1,36 @@
-<app-dynamicform [formSchema]="formSchema" (submitHandler)="onSubmit($event)" (resetHandler)="onReset($event)"></app-dynamicform>
+<!-- <app-dynamicform [formSchema]="formSchema" (submitHandler)="onSubmit($event)" (resetHandler)="onReset($event)"></app-dynamicform> -->
 
 
-
+No authentication needed (popup and reload same route)
+<br />
+<br />
+<button mat-flat-button color="primary" *ngIf="!isUserLoggedIn" (click)="openRegisterPopup()">Register</button>
+<br />
+<br />
+<br />
+No authentication needed (popup and reload same route)
+<br />
+<br />
+<button mat-flat-button color="accent" (click)="openLoginPopup()" *ngIf="!isUserLoggedIn">Login</button>
+<br />
+<br />
+<br />
+Check for authentication If not authenticated pas the route('/profile') to login compoent
+<br />
+<br />
+<button mat-flat-button color="warn" (click)="goToUserProfile()">Profile</button> 
+<br />
+<br />
+<br />
+No authentication needed : directly dispaly page ('/products')
+<br />
+<br />
+<button mat-stroked-button color="primary" (click)="goToProducts()">Products</button>
+<br />
+<br />
+<br />
+Login and go to home page
+<br />
+<br />
+<button mat-stroked-button color="warn" (click)="logout()">Logout</button>
 
