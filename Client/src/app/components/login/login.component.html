@@ -1,4 +1,4 @@
-<form class="form login-form" [formGroup]="loginForm" (ngSubmit)="onLoginFormSubmit(loginForm.value)">
+<!-- <form class="form login-form" [formGroup]="loginForm" (ngSubmit)="onLoginFormSubmit(loginForm.value)">
   <mat-form-field class="form-field email-field block">
     <input matInput type="email" placeholder="Email" formControlName="email">
     <mat-error *ngIf="!loginForm.get('email').valid && loginForm.get('email').touched">
@@ -14,4 +14,6 @@
   <div class="mt2">
     <button mat-raised-button color="primary" [disabled]="!loginForm.valid">Login</button>
   </div>
-</form>
+</form> -->
+
+<app-dynamicform [formSchema]="formSchema" (submitHandler)="onLoginFormSubmit($event)" (resetHandler)="onLoginFormReset($event)"></app-dynamicform>

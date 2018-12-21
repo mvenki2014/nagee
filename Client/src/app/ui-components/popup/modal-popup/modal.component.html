@@ -1,16 +1,16 @@
 <mat-toolbar color="primary">
   <h1 class="caps">{{data.title}}</h1>
-  <button mat-icon-button class="ml-auto" (click)="onNoClick()">
+  <button mat-icon-button class="ml-auto" (click)="onClose()" *ngIf="!data.disableClose">
     <mat-icon>close</mat-icon>
   </button>
 </mat-toolbar>
 <div mat-dialog-content [class.no-dialog-action]="!data.showDialogActions">
   <div class="dialog-content-body p2">
-    <app-login *ngIf="data.contentSelector === 'app-login'"></app-login>
+    <app-login *ngIf="data.contentSelector === 'app-login'" [formSchema]="data.formSchema"></app-login>
     <app-signup *ngIf="data.contentSelector === 'app-signup'"></app-signup>
   </div>
 </div>
 <div mat-dialog-actions *ngIf="data.showDialogActions">
-  <button mat-button (click)="onNoClick()">{{data.cancelText}}</button>
+  <button mat-button (click)="onClose()">{{data.cancelText}}</button>
   <button mat-button [mat-dialog-close]="data" cdkFocusInitial>{{data.okText}}</button>
 </div>

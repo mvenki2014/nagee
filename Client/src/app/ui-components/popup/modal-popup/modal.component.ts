@@ -7,6 +7,8 @@ export interface DialogData {
   contentSelector;
   cancelText;
   okText;
+  disableClose;
+  formSchema;
 }
 @Component({
   selector: 'app-modal-popup',
@@ -14,7 +16,7 @@ export interface DialogData {
   styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent implements OnInit {
-
+  private formSchema;
   constructor(
     public dialogRef: MatDialogRef<ModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -22,7 +24,7 @@ export class ModalComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    this.formSchema = this.data.formSchema;
   }
 
   onNoClick(): void {
