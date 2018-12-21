@@ -32,12 +32,12 @@ mat-dialog-container {
   }
 
   .mat-dialog-content {
-    min-height: calc(50vw - 140px); // 50vh mat-dialog-container - (64 toolbar + 68 dialogactions)
+    // min-height: calc(50vw - 140px); // 50vh mat-dialog-container - (64 toolbar + 68 dialogactions)
     max-height: calc(50vw - 140px);
     overflow: auto;
 
     &.no-dialog-action {
-      min-height: calc(50vw - 85px); // 300 mat-dialog-container - (64 toolbar)
+      // min-height: calc(50vw - 85px); // 300 mat-dialog-container - (64 toolbar)
       max-height: calc(50vw - 85px);
       overflow: auto;
     }

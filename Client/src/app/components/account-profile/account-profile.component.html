@@ -6,7 +6,9 @@
     <div class="up-arrow ml-auto mr1"></div>
     <mat-card>
       <mat-card-content>
-        <app-signup></app-signup>
+        <button mat-button (click)="logout()" *ngIf="isUserLoggedIn">
+          Logout
+        </button>
       </mat-card-content>
     </mat-card>
   </div>

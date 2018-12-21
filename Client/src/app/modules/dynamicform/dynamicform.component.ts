@@ -11,7 +11,7 @@ import { FormSchema } from '@app/_models';
   })
   export class DynamicFormComponent implements OnInit {
     @Input() formSchema: any; // json schema data to generate form
-    myForm: FormGroup;
+    _form: FormGroup;
     @Output() submitHandler: EventEmitter<any> = new EventEmitter(true);
     @Output() resetHandler: EventEmitter<any> = new EventEmitter(true);
 
@@ -29,11 +29,11 @@ import { FormSchema } from '@app/_models';
           validators.push(Validators[validator]);
         });
         if (field.pattern) {
-          // validators.push(Validators.pattern(field.pattern));
+          validators.push(Validators.pattern(field.pattern));
         }
         formBuilderGroupObject[field.name] = [field.value, Validators.compose(validators)];
       });
-      this.myForm = this.formBuilder.group(formBuilderGroupObject);
+      this._form = this.formBuilder.group(formBuilderGroupObject);
     }
 
     onFileInput(formData, field, event) {

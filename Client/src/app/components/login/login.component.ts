@@ -16,25 +16,12 @@ export class LoginComponent implements OnInit {
   private route: ActivatedRoute;
   private returnUrl = '';
   dialogRef: MatDialogRef<ModalComponent, any>;
-  // loginForm: FormGroup;
-  // email = '';
-  // password = '';
-  // user: any = {};
   @Input() formSchema: FormSchema;
   constructor(
     private router: Router,
     private authenticate: AuthenticationService,
     public dialog: MatDialog
   ) {
-    // this.loginForm = this.formBuilder.group({
-    //   'email': [null, Validators.compose([Validators.required, Validators.email])],
-    //   'password': [null,
-    //     Validators.compose([
-    //       Validators.required,
-    //       // Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})')
-    //     ])
-    //   ]
-    // });
   }
 
   ngOnInit() {
@@ -42,14 +29,15 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginFormSubmit(event) {
-    console.log('event', event);
-    // const formData = {username: 'ajay@test.com', password : '1234567'};
-    // this.authenticate.login(formData)
-    // .subscribe(user => {
-    //     console.log('logged in user', user);
-    //   }, (err) => {
-    //     console.log(err);
-    //   });
+    console.log(event.formData);
+    this.authenticate.login(event.formData)
+      .subscribe(user => {
+        if (user) {
+          this.dialog.closeAll();
+        }
+      }, (err) => {
+        console.log(err);
+      });
   }
 
   onLoginFormReset(event) {

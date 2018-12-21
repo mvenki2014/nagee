@@ -1,19 +1,1 @@
-<!-- <form class="form login-form" [formGroup]="loginForm" (ngSubmit)="onLoginFormSubmit(loginForm.value)">
-  <mat-form-field class="form-field email-field block">
-    <input matInput type="email" placeholder="Email" formControlName="email">
-    <mat-error *ngIf="!loginForm.get('email').valid && loginForm.get('email').touched">
-      Please enter a valid email address
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field class="form-field password-field block">
-    <input matInput type="password" placeholder="Password" formControlName="password">
-    <mat-error *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">
-      Please enter a valid password
-    </mat-error>
-  </mat-form-field>
-  <div class="mt2">
-    <button mat-raised-button color="primary" [disabled]="!loginForm.valid">Login</button>
-  </div>
-</form> -->
-
 <app-dynamicform [formSchema]="formSchema" (submitHandler)="onLoginFormSubmit($event)" (resetHandler)="onLoginFormReset($event)"></app-dynamicform>

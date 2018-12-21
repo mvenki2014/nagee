@@ -4,7 +4,7 @@
     <mat-icon>close</mat-icon>
   </button>
 </mat-toolbar>
-<div mat-dialog-content [class.no-dialog-action]="!data.showDialogActions">
+<div mat-dialog-content [class.no-dialog-action]="!data.showDialogActions" class="m0 p0">
   <div class="dialog-content-body p2">
     <app-login *ngIf="data.contentSelector === 'app-login'" [formSchema]="data.formSchema"></app-login>
     <app-signup *ngIf="data.contentSelector === 'app-signup'"></app-signup>

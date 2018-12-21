@@ -1,39 +1,29 @@
 export const loginFormSchema = {
     name: 'myForm',
     classes: 'myForm myFormClass',
-    enableResetButton: true,
+    enableResetButton: false,
     fields: [
         {
-            label: 'name',
-            name: 'name',
-            type: 'text',
-            value: 'Ajay',
+            label: 'username',
+            name: 'username',
+            type: 'email',
+            value: null,
             validators: ['required'],
-            pattern: '/^[a-z][a-z\s]*$/',
+            pattern: new RegExp(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/),
             order: 1,
-            placeholder: 'Name',
-            error: 'Enter valid data'
+            placeholder: 'Email',
+            error: 'Enter valid email'
         },
         {
-            label: 'age',
-            name: 'age',
-            type: 'number',
+            label: 'password',
+            name: 'password',
+            type: 'password',
             value: null,
             validators: ['required'],
-            pattern: '/^[0-9]*$/',
+            pattern: new RegExp(/^[0-9]*$/),
             order: 2,
-            placeholder: 'Age',
-            error: 'Enter valid data'
-        },
-        {
-            label: 'file',
-            name: 'file',
-            type: 'file',
-            value: null,
-            validators: ['required'],
-            order: 3,
-            placeholder: 'file',
-            error: 'Enter valid data'
+            placeholder: 'Password',
+            error: 'Enter valid password'
         }
     ]
 };
