@@ -15,12 +15,12 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
-    data: { title: 'Home' }
+    data: { title: 'Profile' }
   },
   {
     path: 'products',
     component: ProductsComponent,
-    data: { title: 'Home' }
+    data: { title: 'Products' }
   },
   { path: '',
     redirectTo: '/home',
