@@ -6,7 +6,6 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./app-view.component.scss']
 })
 export class AppViewComponent implements OnInit {
-  @Input() books: any;
   constructor() { }
 
   ngOnInit() {

@@ -7,8 +7,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'nageeproject';
-  books: any = [];
+  title = 'Shop-Veggies';
   constructor() { }
 
   ngOnInit() {
