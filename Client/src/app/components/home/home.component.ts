@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isUserLoggedIn = !!this.currentUser;
-    if (!this.isUserLoggedIn {
+    if (!this.isUserLoggedIn) {
       this.openLoginPopup();
     }
   }
