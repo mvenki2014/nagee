@@ -6,6 +6,7 @@ import { AuthenticationService } from './../../_services';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ModalComponent } from './../../ui-components/popup/modal-popup/modal.component';
 import { FormSchema } from '@app/_models';
+import { loginFormSchema } from '@app/forms-schemas';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
   private route: ActivatedRoute;
   private returnUrl = '';
   dialogRef: MatDialogRef<ModalComponent, any>;
-  @Input() formSchema: FormSchema;
+  private _loginFormSchema;
+
   constructor(
     private router: Router,
     private authenticate: AuthenticationService,
@@ -25,11 +27,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('formSchema', this.formSchema);
+    this._loginFormSchema = loginFormSchema;
   }
 
   onLoginFormSubmit(event) {
-    console.log(event.formData);
     this.authenticate.login(event.formData)
       .subscribe(user => {
         if (user) {
@@ -38,9 +39,5 @@ export class LoginComponent implements OnInit {
       }, (err) => {
         console.log(err);
       });
-  }
-
-  onLoginFormReset(event) {
-    console.log('event', event);
   }
 }

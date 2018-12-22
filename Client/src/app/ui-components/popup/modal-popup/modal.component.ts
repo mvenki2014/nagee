@@ -8,7 +8,6 @@ export interface DialogData {
   cancelText;
   okText;
   disableClose;
-  formSchema;
 }
 @Component({
   selector: 'app-modal-popup',
@@ -24,11 +23,9 @@ export class ModalComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.formSchema = this.data.formSchema;
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
+    if (this.data.formSchema) {
+      this.formSchema = this.data.formSchema;
+    }
   }
 
   closeDialog() {

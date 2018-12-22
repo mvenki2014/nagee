@@ -7,8 +7,6 @@ import { User } from './../../_models';
 import { FormSchema } from '@app/_models';
 import { AuthenticationService } from '@app/_services';
 
-import { loginFormSchema } from '@app/forms-schemas';
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -40,22 +38,23 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   openLoginPopup() {
-    this.dialogRef = this.dialog.open(ModalComponent, {
-      data: {
-        title: 'LOGIN',
-        contentSelector: 'app-login',
-        showDialogActions: false,
-        currentRoute: this.router.url,
-        disableClose: true,
-        formSchema: loginFormSchema
-      }
-    });
-    this.dialogRef.disableClose = true;
-    this.dialogRef.afterClosed().subscribe(result => {
-      this.isUserLoggedIn = localStorage.getItem('currentUser');
-      if (this.isUserLoggedIn) {
-        console.log('show spinner and load accordingly...');
-      }
-    });
+    setTimeout(() => {
+      this.dialogRef = this.dialog.open(ModalComponent, {
+        data: {
+          title: 'LOGIN',
+          contentSelector: 'app-login',
+          showDialogActions: false,
+          currentRoute: this.router.url,
+          disableClose: true
+        }
+      });
+      this.dialogRef.disableClose = true;
+      this.dialogRef.afterClosed().subscribe(result => {
+        this.isUserLoggedIn = localStorage.getItem('currentUser');
+        if (this.isUserLoggedIn) {
+          console.log('show spinner and load accordingly...');
+        }
+      });
+    }, 0);
   }
 }
