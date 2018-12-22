@@ -10,12 +10,12 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    data: { title: 'Home' }
+    data: { title: 'Home', animation: 'HomePage' }
   },
   {
     path: 'profile',
     component: ProfileComponent,
-    data: { title: 'Profile' }
+    data: { title: 'Profile', animation: 'ProfilePage' }
   },
   {
     path: 'products',
@@ -37,7 +37,8 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {
       scrollPositionRestoration: 'enabled',
-      anchorScrolling: 'enabled'
+      anchorScrolling: 'enabled',
+      useHash: true
     })
   ],
   exports: [RouterModule]
