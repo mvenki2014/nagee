@@ -1,2 +1,2 @@
-export * from './animation.slideIn';
+export * from './animation.fade';
 

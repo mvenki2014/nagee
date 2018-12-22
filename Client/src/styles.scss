@@ -19,6 +19,13 @@
   border-bottom: 10px solid #fff;
 }
 
+/* router animations to work */
+router-outlet ~ * {
+  position: absolute;
+  height: auto;
+  width: 100%;
+}
+
 /* overrides */
 /* //MODALS// */
 mat-dialog-container {
