@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ModalComponent } from './../../ui-components/popup/modal-popup/modal.component';
 import { Subscription } from 'rxjs';
@@ -14,12 +14,10 @@ import { AuthenticationService } from '@app/_services';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   currentUser;
-  dialogRef: MatDialogRef<ModalComponent, any>;
   currentUserSubscription: Subscription;
   isUserLoggedIn: any;
   constructor(
-    private router: Router,
-    public dialog: MatDialog,
+    private activeRoute: ActivatedRoute,
     private authenticationService: AuthenticationService
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(user => {
@@ -28,33 +26,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.isUserLoggedIn = !!this.currentUser;
-    if (!this.isUserLoggedIn) {
-      this.openLoginPopup();
-    }
+    console.log('loggedInUser', this.activeRoute.snapshot.data.user);
   }
   ngOnDestroy() {
-    // unsubscribe to ensure no memory leaks
-  }
-
-  openLoginPopup() {
-    setTimeout(() => {
-      this.dialogRef = this.dialog.open(ModalComponent, {
-        data: {
-          title: 'LOGIN',
-          contentSelector: 'app-login',
-          showDialogActions: false,
-          currentRoute: this.router.url,
-          disableClose: true
-        }
-      });
-      this.dialogRef.disableClose = true;
-      this.dialogRef.afterClosed().subscribe(result => {
-        this.isUserLoggedIn = localStorage.getItem('currentUser');
-        if (this.isUserLoggedIn) {
-          console.log('show spinner and load accordingly...');
-        }
-      });
-    }, 0);
+    this.currentUserSubscription.unsubscribe();
   }
 }

@@ -20,7 +20,10 @@ import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProductsComponent } from './components/products/products.component';
 import { ModalComponent } from './ui-components/popup/modal-popup/modal.component';
+
+// jwt helpers
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { DynamicFormModule } from './modules/dynamicform/dynamicform.module';
 
@@ -45,7 +48,12 @@ import { DynamicFormModule } from './modules/dynamicform/dynamicform.module';
     BrowserAnimationsModule,
     AppRoutingModule,
     MaterialModule,
-    DynamicFormModule
+    DynamicFormModule,
+    // JwtModule.forRoot({
+    //   config: {tokenGetter: () => {
+    //     return JSON.parse(localStorage.getItem('currentUser')).token;
+    //   }}
+    // })
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

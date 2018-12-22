@@ -23,9 +23,6 @@ export class ModalComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.data.formSchema) {
-      this.formSchema = this.data.formSchema;
-    }
   }
 
   closeDialog() {

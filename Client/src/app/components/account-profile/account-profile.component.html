@@ -2,7 +2,7 @@
   <button mat-icon-button (click)="accountProfilePopover = !accountProfilePopover">
     <mat-icon>account_circle</mat-icon>
   </button>
-  <div *ngIf="accountProfilePopover" class="account-profile-popover absolute right-0">
+  <div *ngIf="accountProfilePopover && isUserLoggedIn" class="account-profile-popover absolute right-0">
     <div class="up-arrow ml-auto mr1"></div>
     <mat-card>
       <mat-card-content>

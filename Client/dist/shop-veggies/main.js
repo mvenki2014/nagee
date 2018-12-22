@@ -163,6 +163,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _ui_components_popup_modal_popup_modal_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../ui-components/popup/modal-popup/modal.component */ "./src/app/ui-components/popup/modal-popup/modal.component.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @auth0/angular-jwt */ "./node_modules/@auth0/angular-jwt/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -177,9 +181,16 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
+
+
+var jwtHelper = new _auth0_angular_jwt__WEBPACK_IMPORTED_MODULE_8__["JwtHelperService"]();
 var AuthenticationService = /** @class */ (function () {
-    function AuthenticationService(http) {
+    function AuthenticationService(http, router, dialog) {
         this.http = http;
+        this.router = router;
+        this.dialog = dialog;
         this.currentUserSubject = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"](JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
     }
@@ -190,10 +201,39 @@ var AuthenticationService = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    AuthenticationService.prototype.loggedInUser = function () {
+        var _this = this;
+        // Check whether the token is expired and return
+        // true or false
+        var user = localStorage.getItem('currentUser') && JSON.parse(localStorage.getItem('currentUser'));
+        if (user && jwtHelper.isTokenExpired(user.token)) {
+            return user;
+        }
+        else {
+            setTimeout(function () {
+                _this.dialogRef = _this.dialog.open(_ui_components_popup_modal_popup_modal_component__WEBPACK_IMPORTED_MODULE_6__["ModalComponent"], {
+                    data: {
+                        title: 'LOGIN',
+                        contentSelector: 'app-login',
+                        showDialogActions: false,
+                        currentRoute: _this.router.url,
+                        disableClose: true
+                    }
+                });
+                _this.dialogRef.disableClose = true;
+                _this.dialogRef.afterClosed().subscribe(function (result) {
+                    user = localStorage.getItem('currentUser') && JSON.parse(localStorage.getItem('currentUser'));
+                    if (user && jwtHelper.isTokenExpired(user.token)) {
+                        return user;
+                    }
+                });
+            }, 0);
+        }
+    };
     AuthenticationService.prototype.login = function (_a) {
         var _this = this;
         var username = _a.username, password = _a.password;
-        return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].apiUrl + "/users/authenticate", { username: username, password: password })
+        return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].apiUrl + "/users/authenticate", { username: username, password: '1234567' })
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (user) {
             // login successful if there's a jwt token in the response
             if (user && user.token) {
@@ -211,7 +251,9 @@ var AuthenticationService = /** @class */ (function () {
     };
     AuthenticationService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({ providedIn: 'root' }),
-        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_7__["Router"],
+            _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatDialog"]])
     ], AuthenticationService);
     return AuthenticationService;
 }());
@@ -293,49 +335,125 @@ var UserService = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/app-routing.module.ts":
-/*!***************************************!*\
-  !*** ./src/app/app-routing.module.ts ***!
-  \***************************************/
-/*! exports provided: AppRoutingModule */
+/***/ "./src/app/animations/animation.fade.ts":
+/*!**********************************************!*\
+  !*** ./src/app/animations/animation.fade.ts ***!
+  \**********************************************/
+/*! exports provided: fadeAnimation */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fadeAnimation", function() { return fadeAnimation; });
+/* harmony import */ var _angular_animations__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/animations */ "./node_modules/@angular/animations/fesm5/animations.js");
+
+var fadeAnimation = Object(_angular_animations__WEBPACK_IMPORTED_MODULE_0__["trigger"])('fadeAnimation', [
+    // The '* => *' will trigger the animation to change between any two states
+    Object(_angular_animations__WEBPACK_IMPORTED_MODULE_0__["transition"])('* => *', [
+        // The query function has three params.
+        // First is the event, so this will apply on entering or when the element is added to the DOM.
+        // Second is a list of styles or animations to apply.
+        // Third we add a config object with optional set to true, this is to signal
+        // angular that the animation may not apply as it may or may not be in the DOM.
+        Object(_angular_animations__WEBPACK_IMPORTED_MODULE_0__["query"])(':enter', [Object(_angular_animations__WEBPACK_IMPORTED_MODULE_0__["style"])({ opacity: 0 })], { optional: true }),
+        Object(_angular_animations__WEBPACK_IMPORTED_MODULE_0__["query"])(':leave', 
+        // here we apply a style and use the animate function to apply the style over 0.3 seconds
+        [Object(_angular_animations__WEBPACK_IMPORTED_MODULE_0__["style"])({ opacity: 1 }), Object(_angular_animations__WEBPACK_IMPORTED_MODULE_0__["animate"])('0.3s', Object(_angular_animations__WEBPACK_IMPORTED_MODULE_0__["style"])({ opacity: 0 }))], { optional: true }),
+        Object(_angular_animations__WEBPACK_IMPORTED_MODULE_0__["query"])(':enter', [Object(_angular_animations__WEBPACK_IMPORTED_MODULE_0__["style"])({ opacity: 0 }), Object(_angular_animations__WEBPACK_IMPORTED_MODULE_0__["animate"])('0.3s', Object(_angular_animations__WEBPACK_IMPORTED_MODULE_0__["style"])({ opacity: 1 }))], { optional: true })
+    ])
+]);
+
+
+/***/ }),
+
+/***/ "./src/app/animations/index.ts":
+/*!*************************************!*\
+  !*** ./src/app/animations/index.ts ***!
+  \*************************************/
+/*! exports provided: fadeAnimation */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _animation_fade__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./animation.fade */ "./src/app/animations/animation.fade.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "fadeAnimation", function() { return _animation_fade__WEBPACK_IMPORTED_MODULE_0__["fadeAnimation"]; });
+
+
+
+
+/***/ }),
+
+/***/ "./src/app/app-routing.module.ts":
+/*!***************************************!*\
+  !*** ./src/app/app-routing.module.ts ***!
+  \***************************************/
+/*! exports provided: LoginResolver, AppRoutingModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginResolver", function() { return LoginResolver; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppRoutingModule", function() { return AppRoutingModule; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _components_home_home_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/home/home.component */ "./src/app/components/home/home.component.ts");
 /* harmony import */ var _components_profile_profile_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/profile/profile.component */ "./src/app/components/profile/profile.component.ts");
 /* harmony import */ var _components_products_products_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/products/products.component */ "./src/app/components/products/products.component.ts");
+/* harmony import */ var _app_services__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @app/_services */ "./src/app/_services/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 
 
 
 
+
+
+
+var LoginResolver = /** @class */ (function () {
+    function LoginResolver(authenticationService) {
+        this.authenticationService = authenticationService;
+    }
+    LoginResolver.prototype.resolve = function () {
+        return this.authenticationService.loggedInUser();
+    };
+    LoginResolver = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
+        __metadata("design:paramtypes", [_app_services__WEBPACK_IMPORTED_MODULE_5__["AuthenticationService"]])
+    ], LoginResolver);
+    return LoginResolver;
+}());
 
 var routes = [
     {
         path: 'home',
         component: _components_home_home_component__WEBPACK_IMPORTED_MODULE_2__["HomeComponent"],
-        data: { title: 'Home' }
+        data: { title: 'Home', animation: 'HomePage' },
+        resolve: {
+            user: LoginResolver
+        }
     },
     {
         path: 'profile',
         component: _components_profile_profile_component__WEBPACK_IMPORTED_MODULE_3__["ProfileComponent"],
-        data: { title: 'Home' }
+        data: { title: 'Profile', animation: 'ProfilePage' },
+        resolve: {
+            user: LoginResolver
+        }
     },
     {
         path: 'products',
         component: _components_products_products_component__WEBPACK_IMPORTED_MODULE_4__["ProductsComponent"],
-        data: { title: 'Home' }
+        data: { title: 'Products' }
     },
-    { path: '',
+    {
+        path: '',
         redirectTo: '/home',
         pathMatch: 'full'
     },
@@ -353,10 +471,12 @@ var AppRoutingModule = /** @class */ (function () {
             imports: [
                 _angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterModule"].forRoot(routes, {
                     scrollPositionRestoration: 'enabled',
-                    anchorScrolling: 'enabled'
+                    anchorScrolling: 'enabled',
+                    useHash: true
                 })
             ],
-            exports: [_angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterModule"]]
+            exports: [_angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterModule"]],
+            providers: [LoginResolver]
         })
     ], AppRoutingModule);
     return AppRoutingModule;
@@ -411,8 +531,7 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 var AppComponent = /** @class */ (function () {
     function AppComponent() {
-        this.title = 'nageeproject';
-        this.books = [];
+        this.title = 'Shop-Veggies';
     }
     AppComponent.prototype.ngOnInit = function () {
     };
@@ -484,6 +603,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+// jwt helpers
 
 
 var AppModule = /** @class */ (function () {
@@ -511,7 +631,7 @@ var AppModule = /** @class */ (function () {
                 _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_7__["BrowserAnimationsModule"],
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_2__["AppRoutingModule"],
                 _material_module__WEBPACK_IMPORTED_MODULE_6__["MaterialModule"],
-                _modules_dynamicform_dynamicform_module__WEBPACK_IMPORTED_MODULE_18__["DynamicFormModule"]
+                _modules_dynamicform_dynamicform_module__WEBPACK_IMPORTED_MODULE_18__["DynamicFormModule"],
             ],
             providers: [
                 { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HTTP_INTERCEPTORS"], useClass: _helpers__WEBPACK_IMPORTED_MODULE_17__["JwtInterceptor"], multi: true },
@@ -535,7 +655,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"relative\">\n  <button mat-icon-button (click)=\"accountProfilePopover = !accountProfilePopover\">\n    <mat-icon>account_circle</mat-icon>\n  </button>\n  <div *ngIf=\"accountProfilePopover\" class=\"account-profile-popover absolute right-0\">\n    <div class=\"up-arrow ml-auto mr1\"></div>\n    <mat-card>\n      <mat-card-content>\n        <app-signup></app-signup>\n      </mat-card-content>\n    </mat-card>\n  </div>\n</div>\n"
+module.exports = "<div class=\"relative\">\n  <button mat-icon-button (click)=\"accountProfilePopover = !accountProfilePopover\">\n    <mat-icon>account_circle</mat-icon>\n  </button>\n  <div *ngIf=\"accountProfilePopover && isUserLoggedIn\" class=\"account-profile-popover absolute right-0\">\n    <div class=\"up-arrow ml-auto mr1\"></div>\n    <mat-card>\n      <mat-card-content>\n        <button mat-button (click)=\"logout()\" *ngIf=\"isUserLoggedIn\">\n          Logout\n        </button>\n      </mat-card-content>\n    </mat-card>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -561,6 +681,8 @@ module.exports = "/* extended popover */\n.mde-popover-panel .mde-popover-direct
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AccountProfileComponent", function() { return AccountProfileComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _app_services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @app/_services */ "./src/app/_services/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -571,10 +693,27 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+
 var AccountProfileComponent = /** @class */ (function () {
-    function AccountProfileComponent() {
+    function AccountProfileComponent(router, authenticationService) {
+        var _this = this;
+        this.router = router;
+        this.authenticationService = authenticationService;
+        this.isUserLoggedIn = false;
+        this.currentUserSubscription = this.authenticationService.currentUser.subscribe(function (user) {
+            _this.currentUser = user;
+            _this.isUserLoggedIn = !!user;
+        });
     }
     AccountProfileComponent.prototype.ngOnInit = function () {
+    };
+    AccountProfileComponent.prototype.ngOnDestroy = function () {
+        // unsubscribe to ensure no memory leaks
+        this.currentUserSubscription.unsubscribe();
+    };
+    AccountProfileComponent.prototype.logout = function () {
+        this.authenticationService.logout();
     };
     AccountProfileComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -582,7 +721,8 @@ var AccountProfileComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./account-profile.component.html */ "./src/app/components/account-profile/account-profile.component.html"),
             styles: [__webpack_require__(/*! ./account-profile.component.scss */ "./src/app/components/account-profile/account-profile.component.scss")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
+            _app_services__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"]])
     ], AccountProfileComponent);
     return AccountProfileComponent;
 }());
@@ -598,7 +738,7 @@ var AccountProfileComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"p2\">\n    <router-outlet></router-outlet>\n</div>\n"
+module.exports = "<div class=\"view-container\" [@fadeAnimation]=\"prepareRoute(outlet)\">\n    <router-outlet #outlet=\"outlet\"> </router-outlet>\n</div>\n"
 
 /***/ }),
 
@@ -609,7 +749,7 @@ module.exports = "<div class=\"p2\">\n    <router-outlet></router-outlet>\n</div
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvYXBwLXZpZXcvYXBwLXZpZXcuY29tcG9uZW50LnNjc3MifQ== */"
+module.exports = ".view-container {\n  height: calc(100vh - 64px);\n  background: #fae9fa;\n  overflow-y: auto; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9TaGFyZWQvUHJvamVjdHNfTGVhcm5pbmcvUHJvamVjdHMvQ2xpZW50L3NyYy9hcHAvY29tcG9uZW50cy9hcHAtdmlldy9hcHAtdmlldy5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLDJCQUEwQjtFQUMxQixvQkFBOEI7RUFDOUIsaUJBQWdCLEVBQ25CIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9hcHAtdmlldy9hcHAtdmlldy5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi52aWV3LWNvbnRhaW5lciB7XG4gICAgaGVpZ2h0OiBjYWxjKDEwMHZoIC0gNjRweCk7XG4gICAgYmFja2dyb3VuZDogcmdiKDI1MCwgMjMzLCAyNTApO1xuICAgIG92ZXJmbG93LXk6IGF1dG87XG59Il19 */"
 
 /***/ }),
 
@@ -624,6 +764,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppViewComponent", function() { return AppViewComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _app_animations__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @app/animations */ "./src/app/animations/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -634,19 +775,22 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var AppViewComponent = /** @class */ (function () {
     function AppViewComponent() {
     }
     AppViewComponent.prototype.ngOnInit = function () {
     };
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Object)
-    ], AppViewComponent.prototype, "books", void 0);
+    AppViewComponent.prototype.prepareRoute = function (outlet) {
+        return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
+    };
     AppViewComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-view',
             template: __webpack_require__(/*! ./app-view.component.html */ "./src/app/components/app-view/app-view.component.html"),
+            animations: [
+                _app_animations__WEBPACK_IMPORTED_MODULE_1__["fadeAnimation"]
+            ],
             styles: [__webpack_require__(/*! ./app-view.component.scss */ "./src/app/components/app-view/app-view.component.scss")]
         }),
         __metadata("design:paramtypes", [])
@@ -665,7 +809,7 @@ var AppViewComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <app-dynamicform [formSchema]=\"formSchema\" (submitHandler)=\"onSubmit($event)\" (resetHandler)=\"onReset($event)\"></app-dynamicform> -->\n\n\nNo authentication needed (popup and reload same route)\n<br />\n<br />\n<button mat-flat-button color=\"primary\" *ngIf=\"!isUserLoggedIn\" (click)=\"openRegisterPopup()\">Register</button>\n<br />\n<br />\n<br />\nNo authentication needed (popup and reload same route)\n<br />\n<br />\n<button mat-flat-button color=\"accent\" (click)=\"openLoginPopup()\" *ngIf=\"!isUserLoggedIn\">Login</button>\n<br />\n<br />\n<br />\nCheck for authentication If not authenticated pas the route('/profile') to login compoent\n<br />\n<br />\n<button mat-flat-button color=\"warn\" (click)=\"goToUserProfile()\">Profile</button> \n<br />\n<br />\n<br />\nNo authentication needed : directly dispaly page ('/products')\n<br />\n<br />\n<button mat-stroked-button color=\"primary\" (click)=\"goToProducts()\">Products</button>\n<br />\n<br />\n<br />\nLogin and go to home page\n<br />\n<br />\n<button mat-stroked-button color=\"warn\" (click)=\"logout()\">Logout</button>\n\n"
+module.exports = "Home"
 
 /***/ }),
 
@@ -692,8 +836,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HomeComponent", function() { return HomeComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
-/* harmony import */ var _ui_components_popup_modal_popup_modal_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../ui-components/popup/modal-popup/modal.component */ "./src/app/ui-components/popup/modal-popup/modal.component.ts");
+/* harmony import */ var _app_services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @app/_services */ "./src/app/_services/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -706,91 +849,20 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
-
 var HomeComponent = /** @class */ (function () {
-    function HomeComponent(router, dialog) {
-        this.router = router;
-        this.dialog = dialog;
+    function HomeComponent(activeRoute, authenticationService) {
+        var _this = this;
+        this.activeRoute = activeRoute;
+        this.authenticationService = authenticationService;
+        this.currentUserSubscription = this.authenticationService.currentUser.subscribe(function (user) {
+            _this.currentUser = user;
+        });
     }
     HomeComponent.prototype.ngOnInit = function () {
-        // this.isUserLoggedIn = localStorage.getItem('currentUser');
-        this.formSchema = {
-            name: 'myForm',
-            classes: 'myForm myFormClass',
-            enableResetButton: true,
-            fields: [
-                {
-                    label: 'name',
-                    name: 'name',
-                    type: 'text',
-                    value: 'Ajay',
-                    validators: ['required'],
-                    pattern: '/^[a-z][a-z\s]*$/',
-                    order: 1,
-                    placeholder: 'Name',
-                    error: 'Enter valid data'
-                },
-                {
-                    label: 'age',
-                    name: 'age',
-                    type: 'number',
-                    value: null,
-                    validators: ['required'],
-                    pattern: '/^[0-9]*$/',
-                    order: 2,
-                    placeholder: 'Age',
-                    error: 'Enter valid data'
-                },
-                {
-                    label: 'file',
-                    name: 'file',
-                    type: 'file',
-                    value: null,
-                    validators: ['required'],
-                    order: 3,
-                    placeholder: 'file',
-                    error: 'Enter valid data'
-                }
-            ]
-        };
+        console.log('loggedInUser', this.activeRoute.snapshot.data.user);
     };
-    HomeComponent.prototype.openRegisterPopup = function () {
-        this.dialogRef = this.dialog.open(_ui_components_popup_modal_popup_modal_component__WEBPACK_IMPORTED_MODULE_3__["ModalComponent"], {
-            data: { title: 'REGISTER', contentSelector: 'app-signup', showDialogActions: false, currentRoute: this.router.url }
-        });
-        this.dialogRef.afterClosed().subscribe(function (result) {
-            console.log('reload the page');
-        });
-    };
-    HomeComponent.prototype.openLoginPopup = function () {
-        var _this = this;
-        this.dialogRef = this.dialog.open(_ui_components_popup_modal_popup_modal_component__WEBPACK_IMPORTED_MODULE_3__["ModalComponent"], {
-            data: { title: 'LOGIN', contentSelector: 'app-login', showDialogActions: false, currentRoute: this.router.url }
-        });
-        this.dialogRef.afterClosed().subscribe(function (result) {
-            _this.isUserLoggedIn = localStorage.getItem('currentUser');
-            if (_this.isUserLoggedIn) {
-                console.log('reload...');
-            }
-        });
-    };
-    HomeComponent.prototype.goToUserProfile = function () {
-        // this.router.navigateByUrl('/profile');
-        // console.log('profile');
-    };
-    HomeComponent.prototype.goToProducts = function () {
-        console.log('products');
-    };
-    HomeComponent.prototype.logout = function () {
-        localStorage.removeItem('currentUser');
-        this.router.navigateByUrl('/');
-        console.log('logout');
-    };
-    HomeComponent.prototype.onSubmit = function (handler) {
-        console.log(handler.event, handler.formData);
-    };
-    HomeComponent.prototype.onReset = function (handler) {
-        console.log(handler.event, handler.formData);
+    HomeComponent.prototype.ngOnDestroy = function () {
+        this.currentUserSubscription.unsubscribe();
     };
     HomeComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -798,7 +870,8 @@ var HomeComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./home.component.html */ "./src/app/components/home/home.component.html"),
             styles: [__webpack_require__(/*! ./home.component.scss */ "./src/app/components/home/home.component.scss")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"], _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialog"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"],
+            _app_services__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"]])
     ], HomeComponent);
     return HomeComponent;
 }());
@@ -814,7 +887,7 @@ var HomeComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<form class=\"form login-form\" [formGroup]=\"loginForm\" (ngSubmit)=\"onLoginFormSubmit(loginForm.value)\">\n  <mat-form-field class=\"form-field email-field block\">\n    <input matInput type=\"email\" placeholder=\"Email\" formControlName=\"email\">\n    <mat-error *ngIf=\"!loginForm.get('email').valid && loginForm.get('email').touched\">\n      Please enter a valid email address\n    </mat-error>\n  </mat-form-field>\n  <mat-form-field class=\"form-field password-field block\">\n    <input matInput type=\"password\" placeholder=\"Password\" formControlName=\"password\">\n    <mat-error *ngIf=\"!loginForm.get('password').valid && loginForm.get('password').touched\">\n      Please enter a valid password\n    </mat-error>\n  </mat-form-field>\n  <div class=\"mt2\">\n    <button mat-raised-button color=\"primary\" [disabled]=\"!loginForm.valid\">Login</button>\n  </div>\n</form>\n"
+module.exports = "<app-dynamicform [formSchema]=\"_loginFormSchema\" (submitHandler)=\"onLoginFormSubmit($event)\"></app-dynamicform>\n"
 
 /***/ }),
 
@@ -840,10 +913,10 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginComponent", function() { return LoginComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../_services */ "./src/app/_services/index.ts");
-/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../_services */ "./src/app/_services/index.ts");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _app_forms_schemas__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @app/forms-schemas */ "./src/app/forms-schemas/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -859,31 +932,22 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(formBuilder, router, authenticate, dialog) {
-        this.formBuilder = formBuilder;
+    function LoginComponent(router, authenticate, dialog) {
         this.router = router;
         this.authenticate = authenticate;
         this.dialog = dialog;
         this.returnUrl = '';
-        this.email = '';
-        this.password = '';
-        this.user = {};
-        this.loginForm = this.formBuilder.group({
-            'email': [null, _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].compose([_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].email])],
-            'password': [null,
-                _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].compose([
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required,
-                ])
-            ]
-        });
     }
     LoginComponent.prototype.ngOnInit = function () {
+        this._loginFormSchema = _app_forms_schemas__WEBPACK_IMPORTED_MODULE_4__["loginFormSchema"];
     };
-    LoginComponent.prototype.onLoginFormSubmit = function () {
-        var formData = { username: 'ajay@test.com', password: '123' };
-        this.authenticate.login(formData)
+    LoginComponent.prototype.onLoginFormSubmit = function (event) {
+        var _this = this;
+        this.authenticate.login(event.formData)
             .subscribe(function (user) {
-            console.log('logged in user', user);
+            if (user) {
+                _this.dialog.closeAll();
+            }
         }, function (err) {
             console.log(err);
         });
@@ -894,10 +958,9 @@ var LoginComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./login.component.html */ "./src/app/components/login/login.component.html"),
             styles: [__webpack_require__(/*! ./login.component.scss */ "./src/app/components/login/login.component.scss")]
         }),
-        __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
-            _services__WEBPACK_IMPORTED_MODULE_3__["AuthenticationService"],
-            _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatDialog"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
+            _services__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"],
+            _angular_material__WEBPACK_IMPORTED_MODULE_3__["MatDialog"]])
     ], LoginComponent);
     return LoginComponent;
 }());
@@ -982,7 +1045,7 @@ var ProductsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "Profile:\n"
+module.exports = "Profile\n"
 
 /***/ }),
 
@@ -1175,6 +1238,66 @@ var SignupComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/forms-schemas/index.ts":
+/*!****************************************!*\
+  !*** ./src/app/forms-schemas/index.ts ***!
+  \****************************************/
+/*! exports provided: loginFormSchema */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _login_form_schema__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./login-form-schema */ "./src/app/forms-schemas/login-form-schema.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "loginFormSchema", function() { return _login_form_schema__WEBPACK_IMPORTED_MODULE_0__["loginFormSchema"]; });
+
+
+
+
+/***/ }),
+
+/***/ "./src/app/forms-schemas/login-form-schema.ts":
+/*!****************************************************!*\
+  !*** ./src/app/forms-schemas/login-form-schema.ts ***!
+  \****************************************************/
+/*! exports provided: loginFormSchema */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loginFormSchema", function() { return loginFormSchema; });
+var loginFormSchema = {
+    name: 'myForm',
+    classes: 'myForm myFormClass',
+    enableResetButton: false,
+    fields: [
+        {
+            label: 'username',
+            name: 'username',
+            type: 'email',
+            value: null,
+            validators: ['required'],
+            pattern: new RegExp(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/),
+            order: 1,
+            placeholder: 'Email',
+            error: 'Enter valid email'
+        },
+        {
+            label: 'password',
+            name: 'password',
+            type: 'password',
+            value: null,
+            validators: ['required'],
+            pattern: new RegExp(/^[0-9]*$/),
+            order: 2,
+            placeholder: 'Password',
+            error: 'Enter valid password'
+        }
+    ]
+};
+
+
+/***/ }),
+
 /***/ "./src/app/material.module.ts":
 /*!************************************!*\
   !*** ./src/app/material.module.ts ***!
@@ -1290,7 +1413,7 @@ var MaterialModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <p>testData: {{formSchema | json}}</p> -->\n<form class=\"form {{formSchema.classes}}\" [formGroup]=\"myForm\">\n    <div *ngFor=\"let field of formSchema.fields\">\n        <div *ngIf=\"field.type === 'file'\" class=\"mb3\">\n            <button mat-fab (click)=\"fileInput.click()\" color=\"light\">\n                <mat-icon>library_add</mat-icon>\n                <input formControlName=\"{{field.name}}\" #fileInput (change)=\"onFileInput(myForm.value, field.name, $event)\" type=\"file\" style=\"display:none;\" />\n            </button>\n        </div>\n        <div *ngIf=\"field.type !== 'file'\">\n            <mat-form-field class=\"form-field {{field.name}}-field block\">\n                <input matInput type=\"field.type\" [placeholder]=\"field.placeholder\" formControlName=\"{{field.name}}\">\n            </mat-form-field>\n            <mat-error *ngIf=\"!myForm.get(field.name).valid && myForm.get(field.name).touched\">\n                {{field.error}}\n            </mat-error>\n        </div>\n    </div>\n    <button type=\"button\" mat-raised-button color=\"primary\" [disabled]=\"myForm.invalid\" (click)=\"onFormSubmit(myForm.value, $event)\">\n        Submit\n    </button>\n    <button type=\"reset\" class=\"right\" mat-stroked-button (click)=\"onFormReset(myForm.value, $event)\">\n        Reset\n    </button>\n</form>"
+module.exports = "<!-- <p>testData: {{formSchema | json}}</p> -->\n<form class=\"form {{formSchema.classes}}\" [formGroup]=\"_form\">\n    <div *ngFor=\"let field of formSchema.fields\">\n        <div *ngIf=\"field.type === 'file'\" class=\"mb3\">\n            <button mat-fab (click)=\"fileInput.click()\" color=\"light\">\n                <mat-icon>library_add</mat-icon>\n                <input formControlName=\"{{field.name}}\" #fileInput (change)=\"onFileInput(_form.value, field.name, $event)\"\n                    type=\"file\" style=\"display:none;\" />\n            </button>\n        </div>\n        <div *ngIf=\"field.type !== 'file'\">\n            <mat-form-field class=\"form-field {{field.name}}-field block\">\n                <input matInput [type]=\"field.type\" [placeholder]=\"field.placeholder\" formControlName=\"{{field.name}}\">\n            </mat-form-field>\n            <mat-error *ngIf=\"!_form.get(field.name).valid && _form.get(field.name).touched\" class=\"mb2\">\n                {{field.error}}\n            </mat-error>\n        </div>\n    </div>\n    <div class=\"mt3\">\n        <button type=\"button\" mat-raised-button color=\"primary\" [disabled]=\"_form.invalid\" (click)=\"onFormSubmit(_form.value, $event)\">\n            Submit\n        </button>\n        <button type=\"reset\" class=\"right\" mat-stroked-button (click)=\"onFormReset(_form.value, $event)\" *ngIf=\"formSchema.enableResetButton\">\n            Reset\n        </button>\n    </div>\n</form>"
 
 /***/ }),
 
@@ -1301,7 +1424,7 @@ module.exports = "<!-- <p>testData: {{formSchema | json}}</p> -->\n<form class=\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* You can add global styles to this file, and also import other style files */\nmat-form-field, mat-error {\n  font-family: \"roboto\" !important; }\nmat-error {\n  font-size: 13px;\n  margin-bottom: 20px; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9TaGFyZWQvUHJvamVjdHNfTGVhcm5pbmcvUHJvamVjdHMvQ2xpZW50L3NyYy9hcHAvbW9kdWxlcy9keW5hbWljZm9ybS9keW5hbWljZm9ybS5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSwrRUFBK0U7QUFDL0U7RUFDSSxpQ0FBZ0MsRUFDbkM7QUFDRDtFQUNJLGdCQUFlO0VBQ2Ysb0JBQW1CLEVBQ3RCIiwiZmlsZSI6InNyYy9hcHAvbW9kdWxlcy9keW5hbWljZm9ybS9keW5hbWljZm9ybS5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi8qIFlvdSBjYW4gYWRkIGdsb2JhbCBzdHlsZXMgdG8gdGhpcyBmaWxlLCBhbmQgYWxzbyBpbXBvcnQgb3RoZXIgc3R5bGUgZmlsZXMgKi9cbm1hdC1mb3JtLWZpZWxkLCBtYXQtZXJyb3Ige1xuICAgIGZvbnQtZmFtaWx5OiBcInJvYm90b1wiICFpbXBvcnRhbnQ7XG59XG5tYXQtZXJyb3Ige1xuICAgIGZvbnQtc2l6ZTogMTNweDtcbiAgICBtYXJnaW4tYm90dG9tOiAyMHB4O1xufSJdfQ== */"
+module.exports = "/* You can add global styles to this file, and also import other style files */\nmat-form-field, mat-error {\n  font-family: \"roboto\" !important; }\nmat-error {\n  font-size: 13px; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9TaGFyZWQvUHJvamVjdHNfTGVhcm5pbmcvUHJvamVjdHMvQ2xpZW50L3NyYy9hcHAvbW9kdWxlcy9keW5hbWljZm9ybS9keW5hbWljZm9ybS5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSwrRUFBK0U7QUFDL0U7RUFDSSxpQ0FBZ0MsRUFDbkM7QUFDRDtFQUNJLGdCQUFlLEVBQ2xCIiwiZmlsZSI6InNyYy9hcHAvbW9kdWxlcy9keW5hbWljZm9ybS9keW5hbWljZm9ybS5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi8qIFlvdSBjYW4gYWRkIGdsb2JhbCBzdHlsZXMgdG8gdGhpcyBmaWxlLCBhbmQgYWxzbyBpbXBvcnQgb3RoZXIgc3R5bGUgZmlsZXMgKi9cbm1hdC1mb3JtLWZpZWxkLCBtYXQtZXJyb3Ige1xuICAgIGZvbnQtZmFtaWx5OiBcInJvYm90b1wiICFpbXBvcnRhbnQ7XG59XG5tYXQtZXJyb3Ige1xuICAgIGZvbnQtc2l6ZTogMTNweDtcbn0iXX0= */"
 
 /***/ }),
 
@@ -1343,11 +1466,11 @@ var DynamicFormComponent = /** @class */ (function () {
                 validators.push(_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"][validator]);
             });
             if (field.pattern) {
-                // validators.push(Validators.pattern(field.pattern));
+                validators.push(_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].pattern(field.pattern));
             }
             formBuilderGroupObject[field.name] = [field.value, _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].compose(validators)];
         });
-        this.myForm = this.formBuilder.group(formBuilderGroupObject);
+        this._form = this.formBuilder.group(formBuilderGroupObject);
     };
     DynamicFormComponent.prototype.onFileInput = function (formData, field, event) {
         formData[field] = event.srcElement.files;
@@ -1456,7 +1579,7 @@ var DynamicFormModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-toolbar color=\"primary\">\n  <button mat-icon-button>\n    <!--  (click)=\"drawer.toggle()\" -->\n    <mat-icon>group_work</mat-icon>\n  </button>\n  <h1 class=\"caps\">{{title}}</h1>\n  <!-- <app-account-profile class=\"ml-auto\"></app-account-profile> -->\n</mat-toolbar>"
+module.exports = "<mat-toolbar color=\"primary\">\n  <button mat-icon-button>\n    <!--  (click)=\"drawer.toggle()\" -->\n    <mat-icon>group_work</mat-icon>\n  </button>\n  <h1 class=\"caps\">{{title}}</h1>\n  <app-account-profile class=\"ml-auto\"></app-account-profile>\n</mat-toolbar>"
 
 /***/ }),
 
@@ -1523,7 +1646,7 @@ var HeaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-toolbar color=\"primary\">\n  <h1 class=\"caps\">{{data.title}}</h1>\n  <button mat-icon-button class=\"ml-auto\" (click)=\"onNoClick()\">\n    <mat-icon>close</mat-icon>\n  </button>\n</mat-toolbar>\n<div mat-dialog-content [class.no-dialog-action]=\"!data.showDialogActions\">\n  <div class=\"dialog-content-body p2\">\n    <app-login *ngIf=\"data.contentSelector === 'app-login'\"></app-login>\n    <app-signup *ngIf=\"data.contentSelector === 'app-signup'\"></app-signup>\n  </div>\n</div>\n<div mat-dialog-actions *ngIf=\"data.showDialogActions\">\n  <button mat-button (click)=\"onNoClick()\">{{data.cancelText}}</button>\n  <button mat-button [mat-dialog-close]=\"data\" cdkFocusInitial>{{data.okText}}</button>\n</div>\n"
+module.exports = "<mat-toolbar color=\"primary\">\n  <h1 class=\"caps\">{{data.title}}</h1>\n  <button mat-icon-button class=\"ml-auto\" (click)=\"closeDialog()\" *ngIf=\"!data.disableClose\">\n    <mat-icon>close</mat-icon>\n  </button>\n</mat-toolbar>\n<div mat-dialog-content [class.no-dialog-action]=\"!data.showDialogActions\" class=\"m0 p0\">\n  <div class=\"dialog-content-body p2\">\n    <app-login *ngIf=\"data.contentSelector === 'app-login'\"></app-login>\n    <app-signup *ngIf=\"data.contentSelector === 'app-signup'\"></app-signup>\n  </div>\n</div>\n<div mat-dialog-actions *ngIf=\"data.showDialogActions\">\n  <button mat-button (click)=\"closeDialog()\">{{data.cancelText}}</button>\n  <button mat-button [mat-dialog-close]=\"data\" cdkFocusInitial>{{data.okText}}</button>\n</div>\n"
 
 /***/ }),
 
@@ -1573,9 +1696,6 @@ var ModalComponent = /** @class */ (function () {
         this.router = router;
     }
     ModalComponent.prototype.ngOnInit = function () {
-    };
-    ModalComponent.prototype.onNoClick = function () {
-        this.dialogRef.close();
     };
     ModalComponent.prototype.closeDialog = function () {
         this.dialogRef.close();
